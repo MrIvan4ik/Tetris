@@ -18,20 +18,47 @@
 int kbhit(void);
 int getch(void);
 
-
+char getRand();
 char getWidth(void);
 char getHeight(void);
-void shMatrix(char width, char height, char array[height][width]);
+void shMatrix(char width, char height, char array[height][width], char figureNow);
 char objParse(char num, char array[8][15])
 {
-  if(num == 0)
-    printf("0!!!!\n");
-}
-char getRand()
-{
-  srand(time(NULL));
-  int r = rand() % 5;
-  return r;
+  switch(num){
+  {
+      case 0:
+          printf("0\n");
+          return "sqr";
+          break;
+      case 1:
+          printf("1\n");
+          return "line";
+          break;
+      case 2:
+          printf("2\n");
+          return "tri";
+          break;
+      case 3:
+          printf("3\n");
+          return "tri-o";
+          break;
+      case 4:
+          printf("4\n");
+          return "z";
+          break;
+      case 5:
+          printf("5\n");
+          return "z-o";
+          break;
+      case 6:
+          printf("6\n");
+          return "pist";
+          break;
+      default:
+          break;
+    };
+  return;
+  }
 }
 
 void main(void)
@@ -39,41 +66,22 @@ void main(void)
   char width = 8,
        height = 15,
        array[8][15];
-  objParse(getRand(), array[8][15]);
   memset(array, 0, height * width);
-  shMatrix(width, height, array);
-  while(1)
-  {
-    if(kbhit())
-    {
-      switch (getch())
-      {
+  char figureNow = objParse(getRand(), array[8][15]);
+  shMatrix(width, height, array, figureNow);
 
-      case  'w':
-
-      break;
-      case  'a':
-
-      break;
-      case  's':
-
-      break;
-      case  'd':
-
-      break;
-      case 27:
-        return;
-      break;
-      default:
-        printf(AC_BLUE"To play use: WASD\nTo exit: ESC\n%s", AC_RESET);
-        break;
-      }
-    }
-  }
+  // while(1)
+  //   if(kbhit())
 
   return;
 }
-
+char matrixFigure(char figure)
+{
+  if(figure == 0)
+    return 11;
+  else 
+    printf("%s\n", figure);
+}
 int kbhit(void)
 {
   struct termios oldt, newt;
@@ -110,7 +118,7 @@ int getch(void)
     return ch;
 }
   
-void shMatrix(char width, char height, char array[height][width]) 
+void shMatrix(char width, char height, char array[height][width],char figureNow) 
 {
   system("clear");
   for(char i = 0;i < height;i++)
@@ -121,16 +129,22 @@ void shMatrix(char width, char height, char array[height][width])
           printf(AC_GREEN"1 %s", AC_RESET);
         } else {printf("0 ", array[i][j]);}
       }
-      if(i == 3) 
+      if(i == 3)
         printf("| Score = %d\n", 55);
       else if (i == 5)
         printf("| Next part is:\n");
       else if (i == 7)
-        printf("|    00\n");
+        printf("|    %d\n", matrixFigure(figureNow));
       else if (i == 8)
-        printf("|    0\n");
+        printf("|    1\n");
       else
         printf("| \n");
       
   }
+}
+char getRand()
+{
+  srand(time(NULL));
+  int r = rand() % 7;
+  return r;
 }
