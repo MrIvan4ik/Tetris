@@ -7,8 +7,6 @@
 #include <locale.h>
 #include <time.h>
 
-
-
 #define AC_RED     "\x1b[31;1m"
 #define AC_GREEN   "\x1b[32;1m"
 #define AC_BLUE    "\x1b[34;1m"
@@ -28,33 +26,34 @@ char objParse(char num, char array[8][15])
   {
       case 0:
           printf("0\n");
-          return "sqr";
+          return 0;
           break;
       case 1:
           printf("1\n");
-          return "line";
+          return 1;
           break;
       case 2:
           printf("2\n");
-          return "tri";
+          return 2;
           break;
       case 3:
           printf("3\n");
-          return "tri-o";
+          return 3;
           break;
       case 4:
           printf("4\n");
-          return "z";
+          return 4;
           break;
       case 5:
           printf("5\n");
-          return "z-o";
+          return 5;
           break;
       case 6:
           printf("6\n");
-          return "pist";
+          return 6;
           break;
       default:
+          return 228;
           break;
     };
   return;
@@ -75,12 +74,39 @@ void main(void)
 
   return;
 }
-char matrixFigure(char figure)
+short * matrixFigure(char figure)
 {
   if(figure == 0)
-    return 11;
-  else 
-    printf("%s\n", figure);
+    return "11";
+  else if (figure == 1)
+    return "1111";
+  else if (figure == 2)
+    return "1";
+  else if (figure == 3)
+    return "   1";
+  else if (figure == 4)
+    return " 11";
+  else if (figure == 5)
+    return "11";
+  else if (figure == 6)
+    return " 1 ";
+}
+short * matrixFigure2(char figure) 
+{
+  if(figure == 0)
+    return "11";
+  else if (figure == 1)
+    return "";
+  else if (figure == 2)
+    return "111";
+  else if (figure == 3)
+    return "1111";
+  else if (figure == 4)
+    return "11";
+  else if (figure == 5)
+    return " 11";
+  else if (figure == 6)
+    return "111";
 }
 int kbhit(void)
 {
@@ -120,6 +146,9 @@ int getch(void)
   
 void shMatrix(char width, char height, char array[height][width],char figureNow) 
 {
+  char figure = figureNow;
+  char * mat = matrixFigure(figure);
+  char * mat2 = matrixFigure2(figure);
   system("clear");
   for(char i = 0;i < height;i++)
   {
@@ -132,11 +161,11 @@ void shMatrix(char width, char height, char array[height][width],char figureNow)
       if(i == 3)
         printf("| Score = %d\n", 55);
       else if (i == 5)
-        printf("| Next part is:\n");
+        printf("| Now part is:\n");
       else if (i == 7)
-        printf("|    %d\n", matrixFigure(figureNow));
+        printf("|    %s\n", mat);
       else if (i == 8)
-        printf("|    1\n");
+        printf("|    %s\n", mat2);
       else
         printf("| \n");
       
