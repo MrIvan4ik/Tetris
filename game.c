@@ -12,6 +12,105 @@
 #define AC_BLUE    "\x1b[34;1m"
 #define AC_RESET   "\x1b[0m"
 
+char startGame(char array[15][8], char figure)
+{
+  char blc1we,
+       blc2we,
+       blc3we,
+       blc4we,
+       blc1hi,
+       blc2hi,
+       blc3hi,
+       blc4hi;
+
+
+
+    if(figure == 0){
+      blc1we = 0, blc2we = 1, blc3we = 0, blc4we = 1, blc1hi = 0, blc2hi = 0, blc3hi = 1, blc4hi = 1;
+      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+    }
+    else if (figure == 1){
+      blc1we = 0, blc2we = 1, blc3we = 2, blc4we = 3, blc1hi = 0, blc2hi = 0, blc3hi = 0, blc4hi = 0;
+      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+    } 
+    else if (figure == 2){
+      blc1we = 0, blc2we = 0, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 1, blc3hi = 1, blc4hi = 1;
+      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+    } 
+    else if (figure == 3){
+      blc1we = 2, blc2we = 0, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 1, blc3hi = 1, blc4hi = 1;
+      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+    } 
+    else if (figure == 4){
+      blc1we = 1, blc2we = 2, blc3we = 0, blc4we = 1, blc1hi = 0, blc2hi = 0, blc3hi = 1, blc4hi = 1;
+      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+    } 
+    else if (figure == 5){
+      blc1we = 0, blc2we = 1, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 0, blc3hi = 1, blc4hi = 1;
+      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+    } 
+    else if (figure == 6){
+      blc1we = 1, blc2we = 0, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 1, blc3hi = 1, blc4hi = 1;
+      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+    } 
+    shMatrix(8, 15, array, figure);
+    char fig0flip = 0,
+         fig1flip = 0,
+         fig2flip = 0,
+         fig3flip = 0,
+         fig4flip = 0,
+         fig5flip = 0,
+         fig6flip = 0;
+
+  while(1)
+  {
+    if(kbhit())
+    {
+      if (getch() == 47) return;
+      if (getch() == 'w'){
+        if(figure == 0){
+          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+        }
+        else if (figure == 1){
+          char fig1flip;
+          if(fig1flip == 0){
+            array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+            array[blc1hi][blc1we] = 1, array[blc2hi = blc2hi + 1][blc2we = blc2we - 1] = 1, array[blc3hi = blc3hi + 2][blc3we = blc3we - 2] = 1, array[blc4hi = blc4hi + 3][blc4we = blc4we - 3] = 1;
+            fig1flip = 1;
+          shMatrix(8, 15, array, figure);
+        }
+          if (fig1flip == 1) {
+            array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+            array[blc1hi][blc1we] = 1, array[blc2hi = blc2hi - 1][blc2we = blc2we + 1] = 1, array[blc3hi = blc3hi - 2][blc3we = blc3we + 2] = 1, array[blc4hi = blc4hi - 3][blc4we = blc4we + 3] = 1;
+            fig1flip = 0;
+          shMatrix(8, 15, array, figure);
+        }
+          printf("%d\n", fig1flip);
+        } 
+        else if (figure == 2){
+          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+        } 
+        else if (figure == 3){
+          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+        } 
+        else if (figure == 4){
+          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+        } 
+        else if (figure == 5){
+          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+        } 
+        else if (figure == 6){
+          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+        } 
+      }
+    }
+  }
+  
+
+  
+  system("clear");
+  printf("GAME OVER\n");
+}
 
 int kbhit(void);
 int getch(void);
@@ -20,45 +119,6 @@ char getRand();
 char getWidth(void);
 char getHeight(void);
 void shMatrix(char width, char height, char array[height][width], char figureNow);
-char objParse(char num, char array[8][15])
-{
-  switch(num){
-  {
-      case 0:
-          printf("0\n");
-          return 0;
-          break;
-      case 1:
-          printf("1\n");
-          return 1;
-          break;
-      case 2:
-          printf("2\n");
-          return 2;
-          break;
-      case 3:
-          printf("3\n");
-          return 3;
-          break;
-      case 4:
-          printf("4\n");
-          return 4;
-          break;
-      case 5:
-          printf("5\n");
-          return 5;
-          break;
-      case 6:
-          printf("6\n");
-          return 6;
-          break;
-      default:
-          return 228;
-          break;
-    };
-  return;
-  }
-}
 
 void main(void)
 {
@@ -66,14 +126,15 @@ void main(void)
        height = 15,
        array[8][15];
   memset(array, 0, height * width);
-  char figureNow = objParse(getRand(), array[8][15]);
+  char figureNow = getRand();
+  startGame(array, figureNow);
   shMatrix(width, height, array, figureNow);
 
-  // while(1)
-  //   if(kbhit())
+
 
   return;
 }
+
 short * matrixFigure(char figure)
 {
   if(figure == 0)
@@ -83,7 +144,7 @@ short * matrixFigure(char figure)
   else if (figure == 2)
     return "1";
   else if (figure == 3)
-    return "   1";
+    return "  1";
   else if (figure == 4)
     return " 11";
   else if (figure == 5)
@@ -100,7 +161,7 @@ short * matrixFigure2(char figure)
   else if (figure == 2)
     return "111";
   else if (figure == 3)
-    return "1111";
+    return "111";
   else if (figure == 4)
     return "11";
   else if (figure == 5)
