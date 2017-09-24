@@ -38,7 +38,7 @@ char startGame(char array[15][8], char figure)
       array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
     } 
     else if (figure == 3){
-      blc1we = 2, blc2we = 0, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 1, blc3hi = 1, blc4hi = 1;
+      blc1we = 2, blc2we = 2, blc3we = 1, blc4we = 0, blc1hi = 1, blc2hi = 0, blc3hi = 0, blc4hi = 0;
       array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
     } 
     else if (figure == 4){
@@ -54,55 +54,100 @@ char startGame(char array[15][8], char figure)
       array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
     } 
     shMatrix(8, 15, array, figure);
-    char fig0flip = 0,
-         fig1flip = 0,
-         fig2flip = 0,
-         fig3flip = 0,
-         fig4flip = 0,
-         fig5flip = 0,
-         fig6flip = 0;
+    char figureFlip = 0;
 
   while(1)
   {
     if(kbhit())
     {
-      if (getch() == 47) return;
       if (getch() == 'w'){
-        if(figure == 0){
-          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
-        }
-        else if (figure == 1){
-          char fig1flip;
-          if(fig1flip == 0){
-            array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
-            array[blc1hi][blc1we] = 1, array[blc2hi = blc2hi + 1][blc2we = blc2we - 1] = 1, array[blc3hi = blc3hi + 2][blc3we = blc3we - 2] = 1, array[blc4hi = blc4hi + 3][blc4we = blc4we - 3] = 1;
-            fig1flip = 1;
-          shMatrix(8, 15, array, figure);
-        }
-          if (fig1flip == 1) {
-            array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
-            array[blc1hi][blc1we] = 1, array[blc2hi = blc2hi - 1][blc2we = blc2we + 1] = 1, array[blc3hi = blc3hi - 2][blc3we = blc3we + 2] = 1, array[blc4hi = blc4hi - 3][blc4we = blc4we + 3] = 1;
-            fig1flip = 0;
-          shMatrix(8, 15, array, figure);
-        }
-          printf("%d\n", fig1flip);
+        if (figure == 1){
+          array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+          if(figureFlip == 0){
+              array[blc1hi][blc1we] = 1, array[blc2hi = blc2hi + 1][blc2we = blc2we - 1] = 1, array[blc3hi = blc3hi + 2][blc3we = blc3we - 2] = 1, array[blc4hi = blc4hi + 3][blc4we = blc4we - 3] = 1;
+              figureFlip = 1;
+          } else if (figureFlip == 1) {
+              array[blc1hi][blc1we] = 1, array[blc2hi = blc2hi - 1][blc2we = blc2we + 1] = 1, array[blc3hi = blc3hi - 2][blc3we = blc3we + 2] = 1, array[blc4hi = blc4hi - 3][blc4we = blc4we + 3] = 1;
+              figureFlip = 0;
+          }
+        shMatrix(8, 15, array, figure);
         } 
         else if (figure == 2){
-          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+          array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+          if(figureFlip == 0){
+              array[blc1hi][blc1we = blc1we + 1] = 1, array[--blc2hi][blc2we] = 1, array[blc3hi][--blc3we] = 1, array[++blc4hi][blc4we = blc4we - 2] = 1;
+              figureFlip = 1;
+          } else if (figureFlip == 1) {
+              array[++blc1hi][++blc1we] = 1, array[blc2hi][blc2we = blc2we + 2] = 1, array[blc3hi][++blc3we] = 1, array[--blc4hi][blc4we] = 1;
+              figureFlip = 2;
+          } else if (figureFlip == 2) {
+            array[blc1hi = blc1hi + 1][--blc1we] = 1, array[blc2hi = blc2hi + 2][blc2we = blc2we - 2] = 1, array[blc3hi][--blc3we] = 1, array[--blc4hi][blc4we] = 1;
+            figureFlip = 3;
+          } else if (figureFlip == 3) {
+            array[blc1hi = blc1hi - 2][--blc1we] = 1, array[--blc2hi][blc2we] = 1, array[blc3hi][++blc3we] = 1, array[++blc4hi][blc4we = blc4we + 2] = 1;
+            figureFlip = 0;
+          }
+        shMatrix(8, 15, array, figure);
         } 
         else if (figure == 3){
-          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+          array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+          if(figureFlip == 0){
+            array[++blc1hi][blc1we = blc1we - 2] = 1, array[blc2hi = blc2hi + 2][--blc2we] = 1, array[++blc3hi][blc3we] = 1, array[blc4hi][++blc4we] = 1;
+            figureFlip = 1;
+          } else if (figureFlip == 1) {
+            array[--blc1hi][blc1we] = 1, array[blc2hi = blc2hi - 2][--blc2we] = 1, array[--blc3hi][blc3we] = 1, array[blc4hi][++blc4we] = 1;
+            figureFlip = 2;
+          } else if (figureFlip == 2) {
+            array[++blc1hi][++blc1we] = 1, array[blc2hi = blc2hi + 1][blc2we] = 1, array[blc3hi][--blc3we] = 1, array[blc4hi = blc4hi + 2][blc4we = blc4we - 2] = 1;
+            figureFlip = 3;
+          } 
+          else if (figureFlip == 3) {
+            array[--blc1hi][++blc1we] = 1, array[--blc2hi][blc2we = blc2we + 2] = 1, array[blc3hi][++blc3we] = 1, array[blc4hi = blc4hi - 2][blc4we] = 1;
+            figureFlip = 0;
+          }
+        shMatrix(8, 15, array, figure);
         } 
         else if (figure == 4){
-          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+          array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+          if(figureFlip == 0){
+              array[blc1hi][--blc1we] = 1, array[++blc2hi][blc2we = blc2we - 2] = 1, array[blc3hi][++blc3we] = 1, array[++blc4hi][blc4we] = 1;
+              figureFlip = 1;
+          } else if (figureFlip == 1) {
+              array[blc1hi][++blc1we] = 1, array[--blc2hi][blc2we = blc2we + 2] = 1, array[blc3hi][--blc3we] = 1, array[--blc4hi][blc4we] = 1;
+              figureFlip = 0;
+          }
+        shMatrix(8, 15, array, figure);
         } 
         else if (figure == 5){
-          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+          array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+          if(figureFlip == 0){
+              array[blc1hi][++blc1we] = 1, array[++blc2hi][blc2we] = 1, array[blc3hi][--blc3we] = 1, array[++blc4hi][blc4we = blc4we - 2] = 1;
+              figureFlip = 1;
+          } else if (figureFlip == 1) {
+              array[blc1hi][--blc1we] = 1, array[--blc2hi][blc2we] = 1, array[blc3hi][++blc3we] = 1, array[--blc4hi][blc4we = blc4we + 2] = 1;
+              figureFlip = 0;
+          }
+        shMatrix(8, 15, array, figure);
         } 
         else if (figure == 6){
-          array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+          array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+          if(figureFlip == 0){
+            array[++blc1hi][blc1we] = 1, array[--blc2hi][blc2we] = 1, array[blc3hi][--blc3we] = 1, array[++blc4hi][blc4we = blc4we - 2] = 1;
+            figureFlip = 1;
+          } else if (figureFlip == 1) {
+            array[blc1hi][blc1we] = 1, array[blc2hi][blc2we = blc2we + 2] = 1, array[--blc3hi][++blc3we] = 1, array[blc4hi = blc4hi - 2][blc4we] = 1;
+            figureFlip = 2;
+          } else if (figureFlip == 2) {
+            array[blc1hi][--blc1we] = 1, array[blc2hi = blc2hi + 2][--blc2we] = 1, array[++blc3hi][blc3we] = 1, array[blc4hi][++blc4we] = 1;
+            figureFlip = 3;
+          } 
+          else if (figureFlip == 3) {
+            array[--blc1hi][++blc1we] = 1, array[--blc2hi][--blc2we] = 1, array[blc3hi][blc3we] = 1, array[++blc4hi][++blc4we] = 1;
+            figureFlip = 0;
+          }
+          shMatrix(8, 15, array, figure);
         } 
-      }
+      } 
     }
   }
   
