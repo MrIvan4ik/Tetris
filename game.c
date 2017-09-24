@@ -6,6 +6,22 @@
 #include <wchar.h>
 #include <locale.h>
 #include <time.h>
+#include <stdlib.h>
+
+
+void setTimeout(int milliseconds)
+{
+    if (milliseconds <= 0) {
+        fprintf(stderr, "Count milliseconds for timeout is less or equal to 0\n");
+        return;
+    }
+    int milliseconds_since = clock() * 1000 / CLOCKS_PER_SEC;
+    int end = milliseconds_since + milliseconds;
+    do {
+        milliseconds_since = clock() * 1000 / CLOCKS_PER_SEC;
+    } while (milliseconds_since <= end);
+}
+
 
 #define AC_RED     "\x1b[31;1m"
 #define AC_GREEN   "\x1b[32;1m"
@@ -22,9 +38,6 @@ char startGame(char array[15][8], char figure)
        blc2hi,
        blc3hi,
        blc4hi;
-
-
-
     if(figure == 0){
       blc1we = 0, blc2we = 1, blc3we = 0, blc4we = 1, blc1hi = 0, blc2hi = 0, blc3hi = 1, blc4hi = 1;
       array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
@@ -55,7 +68,16 @@ char startGame(char array[15][8], char figure)
     } 
     shMatrix(8, 15, array, figure);
     char figureFlip = 0;
-
+    while(1)
+    {
+      setTimeout(1000);
+      if(blc1hi + 2 > 15 || blc2hi + 2 > 15 || blc3hi + 2 > 15 || blc4hi + 2 > 15)
+        break;    
+      
+      array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+      array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
+      shMatrix(8, 15, array, figure);
+    }
   while(1)
   {
     if(kbhit())
@@ -147,9 +169,34 @@ char startGame(char array[15][8], char figure)
           }
           shMatrix(8, 15, array, figure);
         } 
-      } 
-    }
-  }
+      } if (getch() == 'a') {
+            if(blc1we - 1 < 0 || blc2we - 1 < 0 || blc3we - 1 < 0 || blc4we - 1 < 0)
+            {
+
+              shMatrix(8, 15, array, figure);
+              printf("NO!\n");
+            } else {
+              array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+              array[blc1hi][--blc1we] = 1, array[blc2hi][--blc2we] = 1, array[blc3hi][--blc3we] = 1, array[blc4hi][--blc4we] = 1;
+              shMatrix(8, 15, array, figure);
+            }
+            } 
+            if (getch() == 'd') {
+              if(blc1we + 2 > 8 || blc2we + 2 > 8 || blc3we + 2 > 8 || blc4we + 2 > 8 )
+              {
+                shMatrix(8, 15, array, figure);
+                printf("NO!\n");
+              } else {
+                array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+                array[blc1hi][++blc1we] = 1, array[blc2hi][++blc2we] = 1, array[blc3hi][++blc3we] = 1, array[blc4hi][++blc4we] = 1;
+                shMatrix(8, 15, array, figure);
+              }
+            }
+
+          }
+
+        }
+
   
 
   
@@ -276,6 +323,7 @@ void shMatrix(char width, char height, char array[height][width],char figureNow)
         printf("| \n");
       
   }
+  printf("To flip: Double W,\n");
 }
 char getRand()
 {
