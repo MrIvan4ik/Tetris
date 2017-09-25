@@ -3,24 +3,11 @@
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <wchar.h>
-#include <locale.h>
 #include <time.h>
 #include <stdlib.h>
-
-
-void setTimeout(int milliseconds)
-{
-    if (milliseconds <= 0) {
-        fprintf(stderr, "Count milliseconds for timeout is less or equal to 0\n");
-        return;
-    }
-    int milliseconds_since = clock() * 1000 / CLOCKS_PER_SEC;
-    int end = milliseconds_since + milliseconds;
-    do {
-        milliseconds_since = clock() * 1000 / CLOCKS_PER_SEC;
-    } while (milliseconds_since <= end);
-}
+#include <unistd.h> 
+#include <unistd.h>
+#include <signal.h> 
 
 
 #define AC_RED     "\x1b[31;1m"
@@ -28,58 +15,30 @@ void setTimeout(int milliseconds)
 #define AC_BLUE    "\x1b[34;1m"
 #define AC_RESET   "\x1b[0m"
 
-char startGame(char array[15][8], char figure)
+
+char figureDown(char array[15][8], char blc1hi, char blc2hi, char blc3hi, char blc4hi, char blc1we, char blc2we, char blc3we, char blc4we)
 {
-  char blc1we,
-       blc2we,
-       blc3we,
-       blc4we,
-       blc1hi,
-       blc2hi,
-       blc3hi,
-       blc4hi;
-    if(figure == 0){
-      blc1we = 0, blc2we = 1, blc3we = 0, blc4we = 1, blc1hi = 0, blc2hi = 0, blc3hi = 1, blc4hi = 1;
-      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
-    }
-    else if (figure == 1){
-      blc1we = 0, blc2we = 1, blc3we = 2, blc4we = 3, blc1hi = 0, blc2hi = 0, blc3hi = 0, blc4hi = 0;
-      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
-    } 
-    else if (figure == 2){
-      blc1we = 0, blc2we = 0, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 1, blc3hi = 1, blc4hi = 1;
-      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
-    } 
-    else if (figure == 3){
-      blc1we = 2, blc2we = 2, blc3we = 1, blc4we = 0, blc1hi = 1, blc2hi = 0, blc3hi = 0, blc4hi = 0;
-      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
-    } 
-    else if (figure == 4){
-      blc1we = 1, blc2we = 2, blc3we = 0, blc4we = 1, blc1hi = 0, blc2hi = 0, blc3hi = 1, blc4hi = 1;
-      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
-    } 
-    else if (figure == 5){
-      blc1we = 0, blc2we = 1, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 0, blc3hi = 1, blc4hi = 1;
-      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
-    } 
-    else if (figure == 6){
-      blc1we = 1, blc2we = 0, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 1, blc3hi = 1, blc4hi = 1;
-      array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
-    } 
-    shMatrix(8, 15, array, figure);
-    char figureFlip = 0;
-    while(1)
-    {
-      setTimeout(1000);
-      if(blc1hi + 2 > 15 || blc2hi + 2 > 15 || blc3hi + 2 > 15 || blc4hi + 2 > 15)
-        break;    
-      
-      array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
-      array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
-      shMatrix(8, 15, array, figure);
-    }
+  if(blc1hi + 1 > 15 || blc2hi + 1 > 15 || blc3hi + 1 > 15 || blc4hi + 1 > 15)
+  {
+    exit (1);
+  } else
+  {
+    array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+    array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
+    exit (1);
+  }
+}
+
+char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char blc3hi, char blc4hi, char blc1we, char blc2we, char blc3we, char blc4we)
+{
+  char EINVAL;
+  signal (SIGALRM, figureDown(array,blc1hi,blc2hi,blc3hi,blc4hi, blc1we, blc2we, blc3we, blc4we));
+  alarm (2);
+  if(EINVAL == 1) printf("Kek\n");
   while(1)
   {
+    char figureFlip = 0;
+    shMatrix(8, 15, array, figure);
     if(kbhit())
     {
       if (getch() == 'w'){
@@ -193,6 +152,9 @@ char startGame(char array[15][8], char figure)
               }
             }
 
+              
+              
+
           }
 
         }
@@ -203,7 +165,48 @@ char startGame(char array[15][8], char figure)
   system("clear");
   printf("GAME OVER\n");
 }
+char createFigure(char array[15][8], char figure)
+{
+  char blc1we,
+  blc2we,
+  blc3we,
+  blc4we,
+  blc1hi,
+  blc2hi,
+  blc3hi,
+  blc4hi;
 
+  if(figure == 0){
+    blc1we = 0, blc2we = 1, blc3we = 0, blc4we = 1, blc1hi = 0, blc2hi = 0, blc3hi = 1, blc4hi = 1;
+    array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+  }
+  else if (figure == 1){
+    blc1we = 0, blc2we = 1, blc3we = 2, blc4we = 3, blc1hi = 0, blc2hi = 0, blc3hi = 0, blc4hi = 0;
+    array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+  } 
+  else if (figure == 2){
+    blc1we = 0, blc2we = 0, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 1, blc3hi = 1, blc4hi = 1;
+    array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+  } 
+  else if (figure == 3){
+    blc1we = 2, blc2we = 2, blc3we = 1, blc4we = 0, blc1hi = 1, blc2hi = 0, blc3hi = 0, blc4hi = 0;
+    array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+  } 
+  else if (figure == 4){
+    blc1we = 1, blc2we = 2, blc3we = 0, blc4we = 1, blc1hi = 0, blc2hi = 0, blc3hi = 1, blc4hi = 1;
+    array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+  } 
+  else if (figure == 5){
+    blc1we = 0, blc2we = 1, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 0, blc3hi = 1, blc4hi = 1;
+    array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+  } 
+  else if (figure == 6){
+    blc1we = 1, blc2we = 0, blc3we = 1, blc4we = 2, blc1hi = 0, blc2hi = 1, blc3hi = 1, blc4hi = 1;
+    array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
+  } 
+  shMatrix(8, 15, array, figure);
+  startGame(array,figure,blc1hi,blc2hi,blc3hi,blc4hi, blc1we, blc2we, blc3we, blc4we);
+}
 int kbhit(void);
 int getch(void);
 
@@ -219,8 +222,8 @@ void main(void)
        array[8][15];
   memset(array, 0, height * width);
   char figureNow = getRand();
-  startGame(array, figureNow);
-  shMatrix(width, height, array, figureNow);
+  createFigure(array, figureNow);
+  // shMatrix(width, height, array, figureNow);
 
 
 
