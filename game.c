@@ -3,13 +3,11 @@
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
-// #include <time.h>
+#include <time.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h> 
 #include <sys/time.h>
-#include <sys/poll.h>
-
 #define AC_RED     "\x1b[31;1m"
 #define AC_GREEN   "\x1b[32;1m"
 #define AC_BLUE    "\x1b[34;1m"
@@ -26,21 +24,23 @@ char figureDown(char array[15][8], char blc1hi, char blc2hi, char blc3hi, char b
     printf("Kek\n");
     array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
     array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
-    shMatrix(8, 15, array, figure);
+    // shMatrix(8, 15, array, figure);
     return;
   }
 }
-
+char kek(char mek) 
+{
+  mek = mek + 1;
+  return mek;
+}
 char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char blc3hi, char blc4hi, char blc1we, char blc2we, char blc3we, char blc4we)
 {
-  char retval = poll(NULL,NULL, 2000);
-
-  if(retval)
-    printf("Never be done\n");
-  else  
-    array = figureDown(array,blc1hi,blc2hi,blc3hi,blc4hi, blc1we, blc2we, blc3we, blc4we);
-  // char kgl = signal (SIGALRM, figureDown(array,blc1hi,blc2hi,blc3hi,blc4hi, blc1we, blc2we, blc3we, blc4we));
-  // alarm (2);
+  char mek = 0;
+  signal (SIGALRM, kek);
+    
+  alarm (2);
+  if (mek == 1) printf("MEK!!!\n");;
+  
   // shMatrix(8, 15, array, figure);
   
   while(1)
