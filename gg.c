@@ -1,19 +1,27 @@
 #include <stdio.h>   //Для puts
 #include <unistd.h>   //Для alarm
 #include <signal.h>   //Для signal
-void MyAlarm (int var)
-{     puts ("End work");
-      _Exit (0); //Завершение работы программы
+long int *ptr;
+
+int method()
+{
+    // Define a variable local in this method 
+    int local = 100;
+
+    // Set address of local variable (name of variable is local) 
+    // in the ptr pointer
+    ptr = &local;
+
+    return -1;
 }
 
-int main (void)
-{ 
-      puts ("Start work");
-      //Привязка функции MyAlarm к сигналу SIGALRM
-      signal (SIGALRM, MyAlarm);
-      //Установка будильника на 10 секунд
-      alarm (2);
-      //Бесконечный цикл
-      while (1) {printf("Le\n");}
-      return 0;
+int main()
+{
+    // Call method
+    method();   
+
+    // Print value of ptr pointer
+    printf("%d\n", *ptr);
+
+    return -1;
 }

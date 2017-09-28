@@ -8,44 +8,65 @@
 #include <unistd.h>
 #include <signal.h> 
 #include <sys/time.h>
+
 #define AC_RED     "\x1b[31;1m"
 #define AC_GREEN   "\x1b[32;1m"
 #define AC_BLUE    "\x1b[34;1m"
 #define AC_RESET   "\x1b[0m"
 
+char *mek = 0;
 
-char figureDown(char array[15][8], char blc1hi, char blc2hi, char blc3hi, char blc4hi, char blc1we, char blc2we, char blc3we, char blc4we)
+// char figureDown(char array[15][8], char blc1hi, char blc2hi, char blc3hi, char blc4hi, char blc1we, char blc2we, char blc3we, char blc4we)
+// {
+//   if(blc1hi + 1 > 15 || blc2hi + 1 > 15 || blc3hi + 1 > 15 || blc4hi + 1 > 15)
+//   {
+//     return;
+//   } else
+//   {
+//     printf("Kek\n");
+//     array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+//     array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
+//     // shMatrix(8, 15, array, figure);
+//     return;
+//   }
+// }
+char kek(void) 
 {
-  if(blc1hi + 1 > 15 || blc2hi + 1 > 15 || blc3hi + 1 > 15 || blc4hi + 1 > 15)
-  {
-    return;
-  } else
-  {
-    printf("Kek\n");
-    array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
-    array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
-    // shMatrix(8, 15, array, figure);
-    return;
-  }
-}
-char kek(char mek) 
-{
-  mek = mek + 1;
-  return mek;
+  char kekf = 1;
+  mek = &kekf;
+  printf("%d\n", *mek);
+  return;
+  
 }
 char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char blc3hi, char blc4hi, char blc1we, char blc2we, char blc3we, char blc4we)
 {
-  char mek = 0;
+  char zero = 0;
+  mek = &zero;
   signal (SIGALRM, kek);
-    
   alarm (2);
-  if (mek == 1) printf("MEK!!!\n");;
-  
   // shMatrix(8, 15, array, figure);
-  
+  printf("%d\n", *mek);
+
+  char figureFlip = 0;
   while(1)
   {
-    char figureFlip = 0;
+    if (*mek == 1)
+    {
+      if(blc1hi + 1 > 15 || blc2hi + 1 > 14 || blc3hi + 1 > 15 || blc4hi + 1 > 15)
+        {
+          return;
+        } else
+        {
+          printf("Kek\n");
+          array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+          array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
+          shMatrix(8, 15, array, figure);
+        }
+      mek = &zero;
+      signal (SIGALRM, kek);
+      alarm (2);
+    }
+
     if(kbhit())
     {
       if (getch() == 'w'){
@@ -336,6 +357,6 @@ void shMatrix(char width, char height, char array[height][width],char figureNow)
 char getRand()
 {
   srand(time(NULL));
-  int r = rand() % 7;
+  int r = rand() % 7; // 7
   return r;
 }
