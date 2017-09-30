@@ -8,8 +8,8 @@
 #include <unistd.h>
 #include <signal.h> 
 #include <sys/time.h>
-
 #define AC_RED     "\x1b[31;1m"
+#define AC_YELLOW  "\x1b[33;1m"
 #define AC_GREEN   "\x1b[32;1m"
 #define AC_BLUE    "\x1b[34;1m"
 #define AC_RESET   "\x1b[0m"
@@ -31,45 +31,55 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
   signal (SIGALRM, kek);
   alarm (1);
   char figureFlip = 0;
+  char kek1 = blc1hi,
+       kek2 = blc2hi,
+       kek3 = blc3hi,
+       kek4 = blc4hi,
+       kek5 = blc1hi,
+       kek6 = blc2hi,
+       kek7 = blc3hi,
+       kek8 = blc4hi;
   while(1) 
   {
     if (*mek == 1)
     {
       shMatrix(8, 15, array, figure);
-      if(blc1hi + 1 == 15 || blc1hi + 1 == 15 || blc3hi + 1 == 15 || blc4hi + 1 == 15)
+      if(array[kek1 + 1][blc1we] == 2 || array[kek2 + 1][blc2we] == 2 || array[kek3 + 1][blc3we] == 2 || array[kek4 + 1][blc4we] == 2 || kek5 + 1 == 15 || kek6 + 1 == 15 || kek7 + 1 == 15 || kek8 + 1 == 15)
         {
-          return;
+          for(char i = 0;i < 15;i++)
+          {
+              for(char j = 0;j < 8;j++){
+                if (array[i][j] == 1) 
+                  array[i][j] = 2;
+              }
+          }
+          shMatrix(8, 15, array, figure);
+          return 1;
         } else
         {
           array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
           array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
           shMatrix(8, 15, array, figure);
+          
         }
         shMatrix(8, 15, array, figure);
         mek = &zero;
         signal (SIGALRM, kek);
         alarm (1);
+        kek1 = blc1hi,
+        kek2 = blc2hi,
+        kek3 = blc3hi,
+        kek4 = blc4hi,
+        kek5 = blc1hi,
+        kek6 = blc2hi,
+        kek7 = blc3hi,
+        kek8 = blc4hi;
       }
           if(kbhit())
           {
             switch (getch())
             {
             case  'w':
-                  if (*mek == 1)
-              {
-                if(blc1hi + 1 == 15 || blc1hi + 1 == 14 || blc3hi + 1 == 15 || blc4hi + 1 == 15)
-                  {
-                    return;
-                  } else
-                  {
-                    array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
-                    array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
-                    shMatrix(8, 15, array, figure);
-                  }
-                  mek = &zero;
-                  signal (SIGALRM, kek);
-                  alarm (1);
-            }
             if (figure == 1){
               array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
               if(figureFlip == 0){
@@ -235,7 +245,7 @@ char createFigure(char array[15][8], char figure)
     array[blc1hi][blc1we] = 1, array[blc2hi][blc2we] = 1, array[blc3hi][blc3we] = 1, array[blc4hi][blc4we] = 1;
   } 
   shMatrix(8, 15, array, figure);
-  startGame(array,figure,blc1hi,blc2hi,blc3hi,blc4hi, blc1we, blc2we, blc3we, blc4we);
+  return startGame(array,figure,blc1hi,blc2hi,blc3hi,blc4hi, blc1we, blc2we, blc3we, blc4we);
 }
 int kbhit(void);
 int getch(void);
@@ -245,6 +255,11 @@ char getWidth(void);
 char getHeight(void);
 void shMatrix(char width, char height, char array[height][width], char figureNow);
 
+
+
+
+
+
 void main(void)
 {
   char width = 8,
@@ -252,20 +267,25 @@ void main(void)
        array[8][15];
   memset(array, 0, height * width);
   char figureNow = getRand();
-  char zero = 0;
-  mek = &zero;
-  signal (SIGALRM, kek);
-  alarm (1);
-  // shMatrix(8, 15, array, figure);
-
-
-  createFigure(array, figureNow);
-  // shMatrix(width, height, array, figureNow);
+  while(1)
+  {
+    char g = createFigure(array, getRand());
+    if (g == 1)
+    {
+      printf("New figure request\n");
+    } else printf("What?\n");
+  }
+  
 
 
 
   return;
 }
+
+
+
+
+
 
 short * matrixFigure(char figure)
 {
@@ -349,7 +369,10 @@ void shMatrix(char width, char height, char array[height][width],char figureNow)
       for(char j = 0;j < width;j++){
         if (array[i][j] == 1) {
           printf(AC_GREEN"1 %s", AC_RESET);
-        } else {printf("0 ", array[i][j]);}
+        } else if (array[i][j] == 2)
+          printf(AC_YELLOW"2 %s", AC_RESET);
+        
+         else {printf("0 ", array[i][j]);}
       }
       if(i == 3)
         printf("| Score = %d\n", 55);
