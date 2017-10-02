@@ -67,24 +67,18 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
                 {
                   for(char j = 0;j < 8;j++)
                     array[i][j] = 0;
-                    
-                  for(char k = 15; k > 0; k++)
+                    char m = i;
+                  for(char k = m - 1; k > 0; k++)
                   {
                     for(char h = 0; h < 8; h++)
                     {
-                      char g = h;
-                      if(array[h][k] == 2)
+                      char g = k;
+                      if(array[k][h] == 2)
                       {
-                        array[h][k] = 0;
-                        if(h == 15)
-                          array[g + 1][k] = 2;
-                        else if(h == 14)
-                          array[g + 3][k] = 2;
-                        else if(h == 13)                   
-                          array[g + 5][k] = 2;
-                        else if(h == 12)                   
-                          array[g + 7][k] = 2;
+                        array[k][h] = 0;
+                        array[g - 1][h] = 2;
                         shMatrix(8, 15, array, figure);
+
                       }
                     }
                   }
@@ -271,44 +265,6 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
                       array[i][j] = 2;
                   }
               }
-              for(char i = 0; i < 15; i++)
-              {
-                char count = 0;
-                for(char j = 0;j < 8;j++){
-                  if (array[i][j] == 2) 
-                  {
-                    count++;
-                    if(count == 8)
-                    {
-                      for(char j = 0;j < 8;j++)
-                        array[i][j] = 0;
-                        
-                      for(char k = 15; k > 0; k++)
-                      {
-                        for(char h = 0; h < 8; h++)
-                        {
-                          char g = k;
-                          if(array[k][h] == 2)
-                          {
-                            array[k][h] = 0;
-                            if(k == 15)
-                              array[g - 1][h] = 2;
-                            else if(k == 14)
-                              array[g - 3][h] = 2;
-                            else if(k == 13)                   
-                              array[g - 5][h] = 2;
-                            else if(k == 12)                   
-                              array[g - 7][h] = 2;
-                            shMatrix(8, 15, array, figure);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-              
-    
     
               for(char j = 0;j < 8;j++){
                 if (array[0][j] == 2) 
@@ -408,6 +364,11 @@ void main(void)
     {
       printf("New figure request\n");
     } else if (g == 0) return;
+      else {
+        // Only for debug (Later it will be deleted)
+        printf("%d\n", g);
+        return;
+      }
   }
   
 
