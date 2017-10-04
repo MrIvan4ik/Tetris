@@ -14,40 +14,40 @@
 #define AC_BLUE    "\x1b[34;1m"
 #define AC_RESET   "\x1b[0m"
 
-char *mek = 0;
+char *foo = 0;
 
 
-char kek(void) 
+char setOne(void) 
 {
-  char kekf = 1;
-  mek = &kekf;
+  char one = 1;
+  foo = &one;
   return;
   
 }
 char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char blc3hi, char blc4hi, char blc1we, char blc2we, char blc3we, char blc4we)
 {
   char zero = 0;
-  mek = &zero;
-  signal (SIGALRM, kek);
+  foo = &zero;
+  signal (SIGALRM, setOne);
   alarm (1);
   char figureFlip = 0;
-  char kek1 = blc1hi,
-       kek2 = blc2hi,
-       kek3 = blc3hi,
-       kek4 = blc4hi,
-       kek5 = blc1hi,
-       kek6 = blc2hi,
-       kek7 = blc3hi,
-       kek8 = blc4hi;
+  char block1 = blc1hi,
+       block2 = blc2hi,
+       block3 = blc3hi,
+       block4 = blc4hi,
+       block5 = blc1hi,
+       block6 = blc2hi,
+       block7 = blc3hi,
+       block8 = blc4hi;
   char blcwe1 = blc1we,
        blcwe2 = blc2we,
        blcwe3 = blc3we,
        blcwe4 = blc4we;
   while(1) 
   {
-    if (*mek == 1)
+    if (*foo == 1)
     {
-      if(array[kek1 + 1][blc1we] == 2 || array[kek2 + 1][blc2we] == 2 || array[kek3 + 1][blc3we] == 2 || array[kek4 + 1][blc4we] == 2 || kek5 + 1 == 15 || kek6 + 1 == 15 || kek7 + 1 == 15 || kek8 + 1 == 15)
+      if(array[block1 + 1][blc1we] == 2 || array[block2 + 1][blc2we] == 2 || array[block3 + 1][blc3we] == 2 || array[block4 + 1][blc4we] == 2 || block5 + 1 == 15 || block6 + 1 == 15 || block7 + 1 == 15 || block8 + 1 == 15)
         {
           for(char i = 0;i < 15;i++)
           {
@@ -68,7 +68,7 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
                   for(char j = 0;j < 8;j++)
                     array[i][j] = 0;
                     char m = i;
-                  for(char k = m - 1; k > 0; k++)
+                  for(char k = m - 1; k > 0; k--)
                   {
                     for(char h = 0; h < 8; h++)
                     {
@@ -76,7 +76,7 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
                       if(array[k][h] == 2)
                       {
                         array[k][h] = 0;
-                        array[g - 1][h] = 2;
+                        array[g + 1][h] = 2;
                         shMatrix(8, 15, array, figure);
 
                       }
@@ -99,25 +99,34 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
           
 
           shMatrix(8, 15, array, figure);
-        } else
-        {
-          array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
-          array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
-          shMatrix(8, 15, array, figure);
-          
+        } else {
+          block1 = blc1hi;
+          block2 = blc2hi;
+          block3 = blc3hi;
+          block4 = blc4hi;
+          block5 = blc1hi;
+          block6 = blc2hi;
+          block7 = blc3hi;
+          block8 = blc4hi;
+          if(array[block1 + 1][blc1we] != 2 || array[block2 + 1][blc2we] != 2 || array[block3 + 1][blc3we] != 2 || array[block4 + 1][blc4we] != 2 || block5 + 1 == 14 || block6 + 1 == 14 || block7 + 1 == 14 || block8 + 1 == 14) {
+            array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+            array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
+            shMatrix(8, 15, array, figure);
+          }
+
         }
         shMatrix(8, 15, array, figure);
-        mek = &zero;
-        signal (SIGALRM, kek);
+        foo = &zero;
+        signal (SIGALRM, setOne);
         alarm (1);
-        kek1 = blc1hi,
-        kek2 = blc2hi,
-        kek3 = blc3hi,
-        kek4 = blc4hi,
-        kek5 = blc1hi,
-        kek6 = blc2hi,
-        kek7 = blc3hi,
-        kek8 = blc4hi;
+        block1 = blc1hi,
+        block2 = blc2hi,
+        block3 = blc3hi,
+        block4 = blc4hi,
+        block5 = blc1hi,
+        block6 = blc2hi,
+        block7 = blc3hi,
+        block8 = blc4hi;
       }
           if(kbhit())
           {
@@ -253,11 +262,11 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
             }
             break;
             case 's':
-            kek1 = blc1hi;
-            kek2 = blc2hi;
-            kek3 = blc3hi;
-            kek4 = blc4hi;
-            if(blc1hi + 2 > 15 || blc2hi + 2 > 15 || blc3hi + 2 > 15 || blc4hi + 2 > 15 || array[kek1 + 1][blc1we] == 2 || array[kek2 + 1][blc2we] == 2 || array[kek3 + 1][blc3we] == 2 || array[kek4 + 1][blc4we] == 2) {
+            block1 = blc1hi;
+            block2 = blc2hi;
+            block3 = blc3hi;
+            block4 = blc4hi;
+            if(array[blc1hi][blc1we] == 2 || array[blc2hi][blc2we] == 2 || array[blc3hi][blc3we] == 2 || array[blc4hi][blc4we] == 2 || blc1hi + 2 > 15 || blc2hi + 2 > 15 || blc3hi + 2 > 15 || blc4hi + 2 > 15 || array[block1 + 1][blc1we] == 2 || array[block2 + 1][blc2we] == 2 || array[block3 + 1][blc3we] == 2 || array[block4 + 1][blc4we] == 2) {
               for(char i = 0;i < 15;i++)
               {
                   for(char j = 0;j < 8;j++){
@@ -265,6 +274,38 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
                       array[i][j] = 2;
                   }
               }
+              for(char i = 0; i < 15; i++)
+              {
+                char count = 0;
+                for(char j = 0;j < 8;j++){
+                  if (array[i][j] == 2) 
+                  {
+                    count++;
+                    if(count == 8)
+                    {
+                      for(char j = 0;j < 8;j++)
+                        array[i][j] = 0;
+                        char m = i;
+                      for(char k = m - 1; k > 0; k--)
+                      {
+                        for(char h = 0; h < 8; h++)
+                        {
+                          char g = k;
+                          if(array[k][h] == 2)
+                          {
+                            array[k][h] = 0;
+                            array[g + 1][h] = 2;
+                            shMatrix(8, 15, array, figure);
+    
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              
+    
     
               for(char j = 0;j < 8;j++){
                 if (array[0][j] == 2) 
@@ -277,9 +318,16 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
     
               shMatrix(8, 15, array, figure);
             } else {
-              array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
-              array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
-              shMatrix(8, 15, array, figure);
+              block1 = blc1hi;
+              block2 = blc2hi;
+              block3 = blc3hi;
+              block4 = blc4hi;
+              if(array[block1 + 1][blc1we] != 2 || array[block2 + 1][blc2we] != 2 || array[block3 + 1][blc3we] != 2 || array[block4 + 1][blc4we] != 2) {
+                array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+                array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
+                shMatrix(8, 15, array, figure);
+              }
+    
             }
             break;
             }
@@ -488,3 +536,5 @@ char getRand()
   int r = rand() % 7; // 7
   return r;
 }
+
+// Почти готово!!!!
