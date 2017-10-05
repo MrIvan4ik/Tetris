@@ -15,7 +15,7 @@
 #define AC_RESET   "\x1b[0m"
 
 char *foo = 0;
-
+short *score = 255;
 
 char setOne(void) 
 {
@@ -108,7 +108,9 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
           block6 = blc2hi;
           block7 = blc3hi;
           block8 = blc4hi;
-          if(array[block1 + 1][blc1we] != 2 || array[block2 + 1][blc2we] != 2 || array[block3 + 1][blc3we] != 2 || array[block4 + 1][blc4we] != 2 || block5 + 1 == 14 || block6 + 1 == 14 || block7 + 1 == 14 || block8 + 1 == 14) {
+          if(array[block1 + 1][blc1we] == 2 || array[block2 + 1][blc2we] == 2 || array[block3 + 1][blc3we] == 2 || array[block4 + 1][blc4we] == 2 || block5 + 1 == 15 || block6 + 1 == 15 || block7 + 1 == 15 || block8 + 1 == 15) {
+ 
+          } else {
             array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
             array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
             shMatrix(8, 15, array, figure);
@@ -296,8 +298,8 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
                             array[k][h] = 0;
                             array[g + 1][h] = 2;
                             shMatrix(8, 15, array, figure);
-    
                           }
+                          return 3;
                         }
                       }
                     }
@@ -322,12 +324,18 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
               block2 = blc2hi;
               block3 = blc3hi;
               block4 = blc4hi;
-              if(array[block1 + 1][blc1we] != 2 || array[block2 + 1][blc2we] != 2 || array[block3 + 1][blc3we] != 2 || array[block4 + 1][blc4we] != 2) {
-                array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
-                array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
-                shMatrix(8, 15, array, figure);
-              }
-    
+              block5 = blc1hi;
+              block6 = blc2hi;
+              block7 = blc3hi;
+              block8 = blc4hi;
+              if(array[block1 + 1][blc1we] == 2 || array[block2 + 1][blc2we] == 2 || array[block3 + 1][blc3we] == 2 || array[block4 + 1][blc4we] == 2 || block5 + 1 == 15 || block6 + 1 == 15 || block7 + 1 == 15 || block8 + 1 == 15) {
+                
+                         } else {
+                           array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+                           array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
+                           shMatrix(8, 15, array, figure);
+                         }
+               
             }
             break;
             }
@@ -403,6 +411,7 @@ void main(void)
   char width = 8,
        height = 15,
        array[8][15];
+  short score1 = 0;
   memset(array, 0, height * width);
   char figureNow = getRand();
   while(1)
@@ -411,15 +420,17 @@ void main(void)
     if (g == 1)
     {
       printf("New figure request\n");
-    } else if (g == 0) return;
-      else {
-        // Only for debug (Later it will be deleted)
-        printf("%d\n", g);
-        return;
+    } else if (g == 0) break;
+      else if (g == 3)
+      {
+        score1 = score1 + 10;
+        score = &score1;
       }
-  }
-  
 
+  }
+  system("clear");
+  printf(AC_RED"GAME OVER\n%s", AC_RESET); 
+  printf("Your score = \n");
 
 
   return;
@@ -505,6 +516,7 @@ void shMatrix(char width, char height, char array[height][width],char figureNow)
   char figure = figureNow;
   char * mat = matrixFigure(figure);
   char * mat2 = matrixFigure2(figure);
+  short mek = *score;
   system("clear");
   for(char i = 0;i < height;i++)
   {
@@ -518,7 +530,7 @@ void shMatrix(char width, char height, char array[height][width],char figureNow)
          else {printf("0 ", array[i][j]);}
       }
       if(i == 3)
-        printf("| Score = %d\n", 55);
+        fprintf("| Score = %d\n", mek );
       else if (i == 5)
         printf("| Now part is:\n");
       else if (i == 7)
@@ -538,3 +550,4 @@ char getRand()
 }
 
 // Почти готово!!!!
+// Осталось только насторить счет!
