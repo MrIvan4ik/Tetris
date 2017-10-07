@@ -15,8 +15,8 @@
 #define AC_RESET   "\x1b[0m"
 
 char *foo = 0;
-short *score = 255;
-
+short *score;
+char *figNext;
 char setOne(void) 
 {
   char one = 1;
@@ -77,11 +77,11 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
                       {
                         array[k][h] = 0;
                         array[g + 1][h] = 2;
-                        shMatrix(8, 15, array, figure);
-
                       }
+                    shMatrix(8, 15, array, figure);
                     }
                   }
+                  return 3;
                 }
               }
             }
@@ -109,7 +109,7 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
           block7 = blc3hi;
           block8 = blc4hi;
           if(array[block1 + 1][blc1we] == 2 || array[block2 + 1][blc2we] == 2 || array[block3 + 1][blc3we] == 2 || array[block4 + 1][blc4we] == 2 || block5 + 1 == 15 || block6 + 1 == 15 || block7 + 1 == 15 || block8 + 1 == 15) {
- 
+
           } else {
             array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
             array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
@@ -203,8 +203,6 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
                   figureFlip = 0;
               }
               shMatrix(8, 15, array, figure);
-              
-        
             } 
             else if (figure == 6){
               array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
@@ -236,7 +234,6 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
             } else {
               if(array[blc1hi][blcwe1 - 1] == 2 || array[blc2hi][blcwe2 - 1] == 2 || array[blc3hi][blcwe3 - 1] == 2 || array[blc4hi][blcwe4 - 1] == 2)
               {
-                /* code */
               } else{
                 array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
                 array[blc1hi][--blc1we] = 1, array[blc2hi][--blc2we] = 1, array[blc3hi][--blc3we] = 1, array[blc4hi][--blc4we] = 1;
@@ -255,7 +252,6 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
             } else {
               if(array[blc1hi][blcwe1 + 1] == 2 || array[blc2hi][blcwe2 + 1] == 2 || array[blc3hi][blcwe3 + 1] == 2 || array[blc4hi][blcwe4 + 1] == 2)
               {
-                /* code */
               } else{
                 array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
                 array[blc1hi][++blc1we] = 1, array[blc2hi][++blc2we] = 1, array[blc3hi][++blc3we] = 1, array[blc4hi][++blc4we] = 1;
@@ -268,7 +264,8 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
             block2 = blc2hi;
             block3 = blc3hi;
             block4 = blc4hi;
-            if(array[blc1hi][blc1we] == 2 || array[blc2hi][blc2we] == 2 || array[blc3hi][blc3we] == 2 || array[blc4hi][blc4we] == 2 || blc1hi + 2 > 15 || blc2hi + 2 > 15 || blc3hi + 2 > 15 || blc4hi + 2 > 15 || array[block1 + 1][blc1we] == 2 || array[block2 + 1][blc2we] == 2 || array[block3 + 1][blc3we] == 2 || array[block4 + 1][blc4we] == 2) {
+            if(array[block1 + 1][blc1we] == 2 || array[block2 + 1][blc2we] == 2 || array[block3 + 1][blc3we] == 2 || array[block4 + 1][blc4we] == 2 || block5 + 1 == 15 || block6 + 1 == 15 || block7 + 1 == 15 || block8 + 1 == 15)
+            {
               for(char i = 0;i < 15;i++)
               {
                   for(char j = 0;j < 8;j++){
@@ -297,11 +294,12 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
                           {
                             array[k][h] = 0;
                             array[g + 1][h] = 2;
-                            shMatrix(8, 15, array, figure);
+
                           }
-                          return 3;
+                        shMatrix(8, 15, array, figure);
                         }
                       }
+                    return 3;
                     }
                   }
                 }
@@ -329,13 +327,13 @@ char startGame(char array[15][8], char figure, char blc1hi, char blc2hi, char bl
               block7 = blc3hi;
               block8 = blc4hi;
               if(array[block1 + 1][blc1we] == 2 || array[block2 + 1][blc2we] == 2 || array[block3 + 1][blc3we] == 2 || array[block4 + 1][blc4we] == 2 || block5 + 1 == 15 || block6 + 1 == 15 || block7 + 1 == 15 || block8 + 1 == 15) {
-                
-                         } else {
-                           array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
-                           array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
-                           shMatrix(8, 15, array, figure);
-                         }
-               
+    
+              } else {
+                array[blc1hi][blc1we] = 0, array[blc2hi][blc2we] = 0, array[blc3hi][blc3we] = 0, array[blc4hi][blc4we] = 0;
+                array[++blc1hi][blc1we] = 1, array[++blc2hi][blc2we] = 1, array[++blc3hi][blc3we] = 1, array[++blc4hi][blc4we] = 1;
+                shMatrix(8, 15, array, figure);
+              }
+    
             }
             break;
             }
@@ -413,13 +411,15 @@ void main(void)
        array[8][15];
   short score1 = 0;
   memset(array, 0, height * width);
-  char figureNow = getRand();
-  while(1)
-  {
+  score1 = score1 + 1;
+  score = &score1;
+    while(1)
+    {
     char g = createFigure(array, getRand());
     if (g == 1)
     {
-      printf("New figure request\n");
+      score1 = score1 + 1;
+      score = &score1;
     } else if (g == 0) break;
       else if (g == 3)
       {
@@ -430,7 +430,7 @@ void main(void)
   }
   system("clear");
   printf(AC_RED"GAME OVER\n%s", AC_RESET); 
-  printf("Your score = \n");
+  printf("Your score = %d\n", *score);
 
 
   return;
@@ -441,40 +441,40 @@ void main(void)
 
 
 
-short * matrixFigure(char figure)
-{
-  if(figure == 0)
-    return "11";
-  else if (figure == 1)
-    return "1111";
-  else if (figure == 2)
-    return "1";
-  else if (figure == 3)
-    return "  1";
-  else if (figure == 4)
-    return " 11";
-  else if (figure == 5)
-    return "11";
-  else if (figure == 6)
-    return " 1 ";
-}
-short * matrixFigure2(char figure) 
-{
-  if(figure == 0)
-    return "11";
-  else if (figure == 1)
-    return "";
-  else if (figure == 2)
-    return "111";
-  else if (figure == 3)
-    return "111";
-  else if (figure == 4)
-    return "11";
-  else if (figure == 5)
-    return " 11";
-  else if (figure == 6)
-    return "111";
-}
+// short * matrixFigure(char figure)
+// {
+//   if(figure == 0)
+//     return "11";
+//   else if (figure == 1)
+//     return "1111";
+//   else if (figure == 2)
+//     return "1";
+//   else if (figure == 3)
+//     return "  1";
+//   else if (figure == 4)
+//     return " 11";
+//   else if (figure == 5)
+//     return "11";
+//   else if (figure == 6)
+//     return " 1 ";
+// }
+// short * matrixFigure2(char figure) 
+// {
+//   if(figure == 0)
+//     return "11";
+//   else if (figure == 1)
+//     return "";
+//   else if (figure == 2)
+//     return "111";
+//   else if (figure == 3)
+//     return "111";
+//   else if (figure == 4)
+//     return "11";
+//   else if (figure == 5)
+//     return " 11";
+//   else if (figure == 6)
+//     return "111";
+// }
 int kbhit(void)
 {
   struct termios oldt, newt;
@@ -513,10 +513,8 @@ int getch(void)
   
 void shMatrix(char width, char height, char array[height][width],char figureNow) 
 {
-  char figure = figureNow;
-  char * mat = matrixFigure(figure);
-  char * mat2 = matrixFigure2(figure);
-  short mek = *score;
+  // char * mat = matrixFigure(*figNext);
+  // char * mat2 = matrixFigure2(*figNext);
   system("clear");
   for(char i = 0;i < height;i++)
   {
@@ -530,13 +528,13 @@ void shMatrix(char width, char height, char array[height][width],char figureNow)
          else {printf("0 ", array[i][j]);}
       }
       if(i == 3)
-        fprintf("| Score = %d\n", mek );
+        printf("| Score = %d\n", *score );
       else if (i == 5)
-        printf("| Now part is:\n");
+        printf("| The game maked by:\n");
       else if (i == 7)
-        printf("|    %s\n", mat);
+        printf("|  %s  MrIvan4ik\n%s",AC_GREEN, AC_RESET);
       else if (i == 8)
-        printf("|    %s\n", mat2);
+        printf("|    Enjoy playing\n");
       else
         printf("| \n");
       
@@ -545,9 +543,6 @@ void shMatrix(char width, char height, char array[height][width],char figureNow)
 char getRand()
 {
   srand(time(NULL));
-  int r = rand() % 7; // 7
+  char r = rand() % 7; // 7
   return r;
 }
-
-// Почти готово!!!!
-// Осталось только насторить счет!
